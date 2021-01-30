@@ -3,8 +3,6 @@ package pl.coderslab.controller;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.entity.Book;
 import pl.coderslab.repository.BookRepository;
-
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,15 +17,13 @@ public class BookController {
     }
 
     @GetMapping("")
-    public List<Book> findAll(HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
+    public List<Book> findAll() {
         return bookRepository.findAll();
     }
 
     @GetMapping("/{id:\\d+}")
-    public Book findById(@PathVariable(name = "id") Long id, HttpServletResponse response){
+    public Book findById(@PathVariable(name = "id") Long id){
         Optional<Book> bookOptional = bookRepository.findById(id);
-        response.addHeader("Access-Control-Allow-Origin", "*");
         return bookOptional.orElseGet(Book::new);
     }
 
