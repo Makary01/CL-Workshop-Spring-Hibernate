@@ -32,12 +32,14 @@ public class BookController {
     }
 
     @PostMapping("/save")
-    public Book save(@RequestBody Book bookToSave){
+    public Book save(@RequestBody Book bookToSave, HttpServletResponse response){
+        response.addHeader("Access-Control-Allow-Origin", "*");
         return bookRepository.save(bookToSave);
     }
 
     @PutMapping("/edit")
-    public Book edit(@RequestBody Book editedBook){
+    public Book edit(@RequestBody Book editedBook, HttpServletResponse response){
+        response.addHeader("Access-Control-Allow-Origin", "*");
         Optional<Long> idOptional = Optional.ofNullable(editedBook.getId());
         if(idOptional.isPresent()){
             Optional<Book> bookOptional = bookRepository.findById(idOptional.get());
@@ -52,7 +54,8 @@ public class BookController {
     }
 
     @DeleteMapping("/{id:\\d+}")
-    public Book delete(@PathVariable(name = "id") Long id){
+    public Book delete(@PathVariable(name = "id") Long id, HttpServletResponse response){
+        response.addHeader("Access-Control-Allow-Origin", "*");
         Optional<Book> bookOptional = bookRepository.findById(id);
         if (bookOptional.isPresent()){
             bookRepository.delete(bookOptional.get());
